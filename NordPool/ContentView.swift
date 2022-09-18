@@ -43,6 +43,13 @@ struct ContentView: View {
     
     @ViewBuilder
     func FooterBar()->some View{
+        HStack(alignment: .center, spacing: 3){
+            Text("Min \(vm.min.formatAsCurrency())")
+            Spacer()
+            Text("Max \(vm.max.formatAsCurrency())")
+//            Spacer()
+//            Text("Average \(vm.average.formatAsCurrency())")
+        }.padding(.horizontal).padding(.top,10).opacity(0.7)
         HStack{
             Button{
                 
@@ -71,23 +78,20 @@ struct ContentView: View {
                         VStack(alignment: .leading) {
                             Text(stock.symbol)
                                 .opacity(0.4)
-                            //                            .fontWeight(.semibold)
-                            //                        Text(stock.description)
-                            //                            .opacity(0.4)
-                            //                        Divider()
                         }
                         Spacer()
-                        if(stock.is_past){
-                            Text(stock.price.formatAsCurrency()).opacity(0.4)
-                        } else {
+                        HStack{
                             Text(stock.price.formatAsCurrency())
-                        }
+                            Circle().fill(stock.price < vm.off_peak_1 ? Color.green : stock.price > vm.off_peak_2 ? Color.red : Color.white)
+                                .frame(width: 4, height: 4)
+                    
+                        }.opacity(stock.is_past ? 0.4 : 1)
                         
                     }
                     Divider()
                 }
                 FooterBar()
-            }.frame(width: 150, height: 200)
+            }.frame(width: 200, height: 230)
             .onChange(of: vm.rows) { new_rows in
                 print("changed vm.rows")
                 withAnimation {
