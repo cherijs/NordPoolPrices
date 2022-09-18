@@ -88,6 +88,7 @@ struct ContentView: View {
                 }
                 FooterBar()
             }.onChange(of: vm.np_stocks) { new_np_stocks in
+                print("changed vm.np_stocks")
                 withAnimation {
                     proxy.scrollTo(Date.getCurrentHour(), anchor: .top)
                 }

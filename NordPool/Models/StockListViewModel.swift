@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 class StockListViewModel: ObservableObject {
     
+    @Published var response: NordPoolResponse!
     @Published var np_stocks: [NordpoolViewModel] = []
     @Published var title: String = "LV"
     @Published var current_hour_range: String = ""
@@ -31,14 +32,15 @@ class StockListViewModel: ObservableObject {
         
         if(self.np_stocks.count>0 && todayStartDate == self.np_stocks[0].start_time){
             print("Already loaded")
+            self.np_stocks = self.response.data.rows.map(NordpoolViewModel.init)
             return
         }
         
         print("Fetch")
         self.loading = true
         do {
-            let np_stocks: NordPoolResponse = try await Fetcher().getNordPoolStocks(url: Constants.Urls.nordpoolPrices)
-            self.np_stocks = np_stocks.data.rows.map(NordpoolViewModel.init)
+            self.response = try await Fetcher().getNordPoolStocks(url: Constants.Urls.nordpoolPrices)
+            self.np_stocks = self.response.data.rows.map(NordpoolViewModel.init)
             //            self.title = String(self.np_stocks[0].description).originToString(dateFormat: "dd-MM-y")
             self.title = String(self.np_stocks[0].description)
             self.loading = false
@@ -53,7 +55,7 @@ class StockListViewModel: ObservableObject {
 
 struct NordpoolViewModel: Equatable {
     static func == (lhs: NordpoolViewModel, rhs: NordpoolViewModel) -> Bool {
-        return lhs.price == rhs.price && lhs.is_active == rhs.is_active
+        return lhs.price == rhs.price && lhs.is_active == rhs.is_active && lhs.is_past == rhs.is_past
     }
     
     
