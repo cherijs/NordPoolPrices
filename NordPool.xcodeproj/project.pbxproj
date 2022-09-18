@@ -35,11 +35,6 @@
 		6C4117AB28D46B0D0004CEF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6C4117AC28D472F30004CEF5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		6C4117B128D4846A0004CEF5 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
-		6C7734EE28D71873007E8BF2 /* SwiftUI-Introspect */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "SwiftUI-Introspect"; path = "../SwiftUI-Introspect"; sourceTree = "<group>"; };
-		6C7734EF28D718CD007E8BF2 /* SwiftUI-Introspect */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "SwiftUI-Introspect"; path = "../SwiftUI-Introspect"; sourceTree = "<group>"; };
-		6C7734F028D719B0007E8BF2 /* SwiftUI-Introspect */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "SwiftUI-Introspect"; path = "../SwiftUI-Introspect"; sourceTree = "<group>"; };
-		6C7734F428D71A34007E8BF2 /* SwiftUI-Introspect */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "SwiftUI-Introspect"; sourceTree = "<group>"; };
-		6C7734F528D71A46007E8BF2 /* SwiftUI-Introspect */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "SwiftUI-Introspect"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,11 +128,6 @@
 		6C7734ED28D71873007E8BF2 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				6C7734EE28D71873007E8BF2 /* SwiftUI-Introspect */,
-				6C7734EF28D718CD007E8BF2 /* SwiftUI-Introspect */,
-				6C7734F028D719B0007E8BF2 /* SwiftUI-Introspect */,
-				6C7734F428D71A34007E8BF2 /* SwiftUI-Introspect */,
-				6C7734F528D71A46007E8BF2 /* SwiftUI-Introspect */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
