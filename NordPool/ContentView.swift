@@ -66,7 +66,7 @@ struct ContentView: View {
         ScrollViewReader { (proxy: ScrollViewProxy) in
             VStack(alignment: .leading, spacing: 0) {
                 Header()
-                List(vm.np_stocks.filter { $0.is_active }, id: \.symbol) { stock in
+                List(vm.rows.filter { $0.is_active }, id: \.symbol) { stock in
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
                             Text(stock.symbol)
@@ -87,8 +87,8 @@ struct ContentView: View {
                     Divider()
                 }
                 FooterBar()
-            }.onChange(of: vm.np_stocks) { new_np_stocks in
-                print("changed vm.np_stocks")
+            }.onChange(of: vm.rows) { new_rows in
+                print("changed vm.rows")
                 withAnimation {
                     proxy.scrollTo(Date.getCurrentHour(), anchor: .top)
                 }
