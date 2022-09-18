@@ -27,14 +27,14 @@ struct NordPoolRow: Equatable {
         self.end_time = stock.endTime.toDate()!
         //        .getFormattedDate(format: "HH:mm")
         
-        self.price = stock.columns[0].value.toDouble()!/1000
+        self.price = stock.columns[0].value.toDouble()! // /1000
         
         let filtered = stock.columns.filter { col in
             return col.name == "LV" //Date.getCurrentDate()
         }
         if(filtered.count>0){
             self.description = filtered[0].name
-            self.price = filtered[0].value.toDouble()!/1000
+            self.price = filtered[0].value.toDouble()! //  /1000
         } else {
             self.description = ""
             self.is_active = false
