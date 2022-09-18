@@ -18,7 +18,6 @@
 		6C4117AA28D468E60004CEF5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4117A928D468E60004CEF5 /* Constants.swift */; };
 		6C4117AD28D472F30004CEF5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4117AC28D472F30004CEF5 /* List.swift */; };
 		6C4117B228D4846A0004CEF5 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4117B128D4846A0004CEF5 /* ApiResponse.swift */; };
-		6C7734F828D71A61007E8BF2 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7734F728D71A61007E8BF2 /* Introspect */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C7734F828D71A61007E8BF2 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +159,6 @@
 			);
 			name = NordPool;
 			packageProductDependencies = (
-				6C7734F728D71A61007E8BF2 /* Introspect */,
 			);
 			productName = NordPool;
 			productReference = 6C41178028D4663D0004CEF5 /* NordPool.app */;
@@ -193,7 +190,6 @@
 			);
 			mainGroup = 6C41177728D4663D0004CEF5;
 			packageReferences = (
-				6C7734F628D71A61007E8BF2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 6C41178128D4663D0004CEF5 /* Products */;
 			projectDirPath = "";
@@ -447,25 +443,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		6C7734F628D71A61007E8BF2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6C7734F728D71A61007E8BF2 /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6C7734F628D71A61007E8BF2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6C41177828D4663D0004CEF5 /* Project object */;
 }

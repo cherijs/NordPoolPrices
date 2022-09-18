@@ -13,18 +13,6 @@ enum NetworkError: Error {
 
 class Fetcher {
     
-    func getStocks(url: URL) async throws -> [Stock] {
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw NetworkError.invalidResponse
-        }
-        
-        return try JSONDecoder().decode([Stock].self, from: data)
-    }
-    
     func getNordPoolStocks(url: String) async throws -> NordPoolResponse {
         let url_with_date = url + "&endDate=" + Date().getFormattedDate(format: "dd-MM-Y")
         print(url_with_date)

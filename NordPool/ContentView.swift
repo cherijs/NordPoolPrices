@@ -85,7 +85,7 @@ struct ContentView: View {
                         
                     }
                     Divider()
-                }.removeBackground()
+                }
                 FooterBar()
             }.onChange(of: vm.np_stocks) { new_np_stocks in
                 withAnimation {

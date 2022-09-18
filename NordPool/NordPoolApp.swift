@@ -16,8 +16,7 @@ struct NordPoolApp: App {
 //        WindowGroup {
 //            ContentView(vm: StockListViewModel())
 //        }
-        Settings {
-                }
+        Settings {  }
     }
 }
 
@@ -39,7 +38,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             statusButton.image = NSImage(systemSymbolName: "chart.line.uptrend.xyaxis.circle.fill", accessibilityDescription: "Nord Pool")
             statusButton.action = #selector(togglePopover)
         }
-        
         
         
         self.popover = NSPopover()

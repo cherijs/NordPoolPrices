@@ -15,17 +15,6 @@ class StockListViewModel: ObservableObject {
     @Published var current_hour_range: String = ""
     var loading = false
     
-//    func populateStocks() async {
-//        print("Fetch")
-//        do {
-//            let stocks = try await Fetcher().getStocks(url: Constants.Urls.latestStocks)
-//            self.stocks = stocks.map(StockViewModel.init)
-//        } catch {
-//            print(error)
-//        }
-//    }
-    
-    
     func populateNordPoolStocks() async {
         
         self.current_hour_range = Date.getCurrentHour()
@@ -83,7 +72,7 @@ struct NordpoolViewModel: Equatable {
         //        .getFormattedDate(format: "HH:mm")
         
         self.price = stock.columns[0].value.toDouble()!/1000
- 
+        
         let filtered = stock.columns.filter { col in
             return col.name == "LV" //Date.getCurrentDate()
         }
@@ -111,28 +100,4 @@ struct NordpoolViewModel: Equatable {
     //        stock.columns[0].value
     //    }
     
-    
-    
-}
-
-
-struct StockViewModel {
-    
-    private var stock: Stock
-    
-    init(stock: Stock) {
-        self.stock = stock
-    }
-    
-    var symbol: String {
-        stock.symbol
-    }
-    
-    var price: Double {
-        stock.price
-    }
-    
-    var description: String {
-        stock.description
-    }
 }

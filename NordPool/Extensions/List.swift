@@ -4,7 +4,7 @@
 //
 //  Created by Arturs Cirsis on 16/09/2022.
 //
-import Introspect
+
 import SwiftUI
 
 class InvisibleScroller: NSScroller {
@@ -34,20 +34,13 @@ class InvisibleScroller: NSScroller {
     }
 }
 
-extension List {
-    //    List on macOS uses an opaque background with no option for
-    //    removing/changing it. listRowBackground() doesn't work either.
-    //    This workaround works because List is backed by NSTableView.
-    //    https://github.com/siteline/SwiftUI-Introspect
-    func removeBackground() -> some View {
-        return introspectTableView { tableView in
-            tableView.backgroundColor = .clear
-            tableView.enclosingScrollView!.drawsBackground = false
-            //            tableView.enclosingScrollView!.horizontalScrollElasticity = .none
-            //            tableView.enclosingScrollView!.verticalScrollElasticity = .none
-            //            tableView.enclosingScrollView!.automaticallyAdjustsContentInsets = false
-            tableView.enclosingScrollView!.horizontalScroller = InvisibleScroller()
-            tableView.enclosingScrollView!.verticalScroller = InvisibleScroller()
-        }
+extension NSTableView {
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        
+        backgroundColor = NSColor.clear
+        enclosingScrollView!.drawsBackground = false
+        enclosingScrollView!.horizontalScroller = InvisibleScroller()
+        enclosingScrollView!.verticalScroller = InvisibleScroller()
     }
 }
