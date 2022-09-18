@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct Stock: Decodable {
-    let symbol: String
-    let description: String
-    let price: Double
-}
-
 struct NordPoolRow: Equatable {
     static func == (lhs: NordPoolRow, rhs: NordPoolRow) -> Bool {
         return lhs.price == rhs.price && lhs.is_active == rhs.is_active && lhs.is_past == rhs.is_past
