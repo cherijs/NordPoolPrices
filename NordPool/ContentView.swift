@@ -87,7 +87,8 @@ struct ContentView: View {
                     Divider()
                 }
                 FooterBar()
-            }.onChange(of: vm.rows) { new_rows in
+            }.frame(width: 150, height: 200)
+            .onChange(of: vm.rows) { new_rows in
                 print("changed vm.rows")
                 withAnimation {
                     proxy.scrollTo(Date.getCurrentHour(), anchor: .top)
