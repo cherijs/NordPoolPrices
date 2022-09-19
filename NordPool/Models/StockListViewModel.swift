@@ -13,7 +13,6 @@ class StockListViewModel: ObservableObject {
     @Published var response: NordPoolResponse!
     @Published var rows: [NordPoolRow] = []
     @Published var title: String = "LV"
-    @Published var current_hour_range: String = ""
     @Published var max: Double = 0
     @Published var min: Double = 0
     @Published var average: Double = 0
@@ -65,13 +64,15 @@ class StockListViewModel: ObservableObject {
     }
     
     func refresh() {
-        self.rows = self.response.data.rows.map(NordPoolRow.init)
-        self.set_min_max()
+        if((self.response) != nil){
+            self.rows = self.response.data.rows.map(NordPoolRow.init)
+            self.set_min_max()
+            print("REFRESH")
+        }
     }
     
     func populateNordPoolStocks() async {
-        
-        self.current_hour_range = Date.getCurrentHour()
+    
         
         let calendar = Calendar.current
         var todayStartDate = Date()

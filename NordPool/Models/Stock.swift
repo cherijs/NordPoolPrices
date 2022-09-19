@@ -18,6 +18,7 @@ struct NordPoolRow: Equatable {
     var end_time: Date
     var description: String
     var price: Double
+    var range: String
     var is_active: Bool = true
     var is_past: Bool = false
     
@@ -30,9 +31,9 @@ struct NordPoolRow: Equatable {
         //        .getFormattedDate(format: "HH:mm")
         
         self.price = Double(stock.columns[0].value.toFloat()! * settings.mesurement)
-        
+        self.range = "\(self.start_time.getFormattedDate(format: "HH:mm"))-\(self.end_time.getFormattedDate(format: "HH:mm"))"
         let filtered = stock.columns.filter { col in
-            return col.name == settings.market //Date.getCurrentDate()
+            return col.name == settings.market 
         }
         if(filtered.count>0){
             self.description = filtered[0].name

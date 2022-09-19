@@ -36,25 +36,25 @@ extension String {
     func toDate(dateFormat:String = "yyyy-MM-dd'T'HH:mm:ss") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
+        dateFormatter.timeZone = TimeZone(identifier: "CET")
         return dateFormatter.date(from: self)
     }
 }
 
 extension Date {
-    func getFormattedDate(format: String) -> String {
-        let dateformat = DateFormatter()
-        dateformat.locale = Locale(identifier: "lv_LV") //Locale.current
-        dateformat.dateFormat = format
-        return dateformat.string(from: self)
+    func getFormattedDate(format: String, timezone:String="CET") -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "lv_LV") //Locale.current
+        dateFormatter.dateFormat = format
+//        dateFormatter.timeZone = TimeZone(identifier: timezone)
+        return dateFormatter.string(from: self)
     }
 }
 extension Date {
-    static func getCurrentDate() -> String {
-        
+    static func getCurrentDate(timezone:String="CET") -> String {
         let dateFormatter = DateFormatter()
-        
         dateFormatter.dateFormat = "dd-MM-YYYY"
-        
+//        dateFormatter.timeZone = TimeZone(identifier: timezone)
         return dateFormatter.string(from: Date())
         
     }
@@ -62,8 +62,8 @@ extension Date {
     static func getCurrentHour() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH"
-        return dateFormatter.string(from: Date()) + "-" + Date.now.adding(hours: 1).getFormattedDate(format: "HH")
-        
+        dateFormatter.timeZone = TimeZone.current
+        return "\(dateFormatter.string(from: Date())):00-\(dateFormatter.string(from: Date.now.adding(hours: 1))):00"
     }
     
     func adding(hours: Int) -> Date {
@@ -78,7 +78,7 @@ extension String {
         
         // Set Date Format
         dateFormatter.dateFormat = dateFormat
-        
+        dateFormatter.timeZone = TimeZone(identifier: "CET")
         // Convert String to Date
         let date = (dateFormatter.date(from: self)?.getFormattedDate(format: "d MMM EEEE"))
         return date?.capitalized ?? self

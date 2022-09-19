@@ -32,9 +32,9 @@ struct ContentView: View {
     
     init(vm: StockListViewModel) {
         self._vm = StateObject(wrappedValue: vm)
-     
-//        selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
-//        selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
+        
+        //        selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
+        //        selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
     }
     
     func saveSettings()  {
@@ -53,15 +53,42 @@ struct ContentView: View {
     
     @ViewBuilder
     func FooterBar()->some View{
-        HStack(alignment: .center, spacing: 3){
-            Text("Min \(vm.min.formatAsCurrency())")
-            Spacer()
-            Text("Max \(vm.max.formatAsCurrency())")
-        }
+        Button(action: {
+            scrollTarget = Date.getCurrentHour()
+        }, label : {
+            HStack(alignment: .center, spacing: 3){
+                Text("Min \(vm.min.formatAsCurrency())")
+                Spacer()
+                Text("Max \(vm.max.formatAsCurrency())")
+            }
+        })
         .padding(.horizontal)
         .padding(.top,10)
-        .padding(.bottom,10)
         .opacity(0.7)
+        if(showingSettings){
+            HStack {
+                Picker(selection: $selectedMesurement, label: EmptyView()) {
+                    Text("kWh").tag(Mesurement.kWh)
+                    Text("mWh").tag(Mesurement.mWh)
+                }.onChange(of: selectedMesurement) { tag in
+                    print("\(tag.rawValue)")
+                    
+                    self.saveSettings()
+                    
+                }
+                .pickerStyle(.segmented)
+                
+                Picker(selection: $selectedMarket, label: EmptyView()) {
+                    ForEach(Markets.allCases) { option in
+                        Text(option.rawValue.description)
+                    }
+                }.onChange(of: selectedMarket) { tag in
+                    print("\(tag.rawValue)")
+                    self.saveSettings()
+                }
+            }.padding(.horizontal).padding(.top, 0)
+        }
+        Spacer()
         HStack{
             Button{
                 showingSettings = !showingSettings
@@ -85,7 +112,7 @@ struct ContentView: View {
     @ViewBuilder
     func Header()->some View{
         Button(action: {
-            scrollTarget = vm.current_hour_range
+            scrollTarget = Date.getCurrentHour()
         }, label : {
             HStack(alignment: .top){
                 Text("Nord Pool")
@@ -102,76 +129,65 @@ struct ContentView: View {
             VStack(alignment: .leading){
                 Header()
                 Spacer(minLength: 0)
-                if(showingSettings){
-                    
-                    HStack {
-                        Picker(selection: $selectedMesurement, label: EmptyView()) {
-                            Text("kWh").tag(Mesurement.kWh)
-                            Text("mWh").tag(Mesurement.mWh)
-                        }.onChange(of: selectedMesurement) { tag in
-                            print("\(tag.rawValue)")
-                            
-                            self.saveSettings()
-                            
+
+                List(vm.rows.filter { $0.is_active && !["Min", "Max", "Average", "Peak", "Off-peak 1", "Off-peak 2"].contains($0.symbol)   }, id: \.range) { stock in
+                    HStack(alignment: .center) {
+                        VStack(alignment: .leading) {
+                            Text("\(stock.range)")
+                                .fontWeight(Date.getCurrentHour() == stock.range ? .bold : .light)
+                                .opacity(Date.getCurrentHour() == stock.range ? 1 : 0.4)
                         }
-                        .pickerStyle(.segmented)
+                        Spacer()
+                        HStack{
+                            Text(stock.price.formatAsCurrency()).fontWeight(Date.getCurrentHour() == stock.range ? .bold : .light)
+                            Circle().fill(stock.price < vm.off_peak_1 ? Color.green : stock.price > vm.off_peak_2 ? Color.red : Color.white.opacity(0.2))
+                                .frame(width: 4, height: 4)
+                            
+                        }.opacity(stock.is_past ? 0.4 : 1)
                         
-                        Picker(selection: $selectedMarket, label: EmptyView()) {
-                            ForEach(Markets.allCases) { option in
-                                Text(option.rawValue.description)
-                            }
-                        }.onChange(of: selectedMarket) { tag in
-                            print("\(tag.rawValue)")
-                            self.saveSettings()
-                        }
-                    }.padding()
-                    
-                    
-                } else {
-                    
-                    List(vm.rows.filter { $0.is_active }, id: \.symbol) { stock in
-                        HStack(alignment: .center) {
-                            VStack(alignment: .leading) {
-                                Text(stock.symbol)
-                                    .fontWeight(Date.getCurrentHour() == stock.symbol ? .bold : .light)
-                                    .opacity(Date.getCurrentHour() == stock.symbol ? 1 : 0.4)
-                            }
-                            Spacer()
-                            HStack{
-                                Text(stock.price.formatAsCurrency()).fontWeight(Date.getCurrentHour() == stock.symbol ? .bold : .light)
-                                Circle().fill(stock.price < vm.off_peak_1 ? Color.green : stock.price > vm.off_peak_2 ? Color.red : Color.white.opacity(0.2))
-                                    .frame(width: 4, height: 4)
-                                
-                            }.opacity(stock.is_past ? 0.4 : 1)
-                            
-                        }
-                        Divider()
-                    }.onChange(of: vm.rows) { new_rows in
-                        print("changed vm.rows")
-                        withAnimation {
-                            proxy.scrollTo(Date.getCurrentHour(), anchor: .leading)
-                        }
                     }
-                    .onChange(of: scrollTarget) { target in
-                        //                print("onChange - \(scrollTarget)  \(target)")
-                        if (target != ""){
-                            scrollTarget = ""
-                            withAnimation {
-                                proxy.scrollTo(target, anchor: .leading)
-                            }
+                    Divider()
+                }.onChange(of: vm.rows) { new_rows in
+                    print("changed vm.rows")
+                    withAnimation {
+                        proxy.scrollTo(Date.getCurrentHour(), anchor: .leading)
+                    }
+                }
+                .onChange(of: scrollTarget) { target in
+                    //                print("onChange - \(scrollTarget)  \(target)")
+                    if (target != ""){
+                        scrollTarget = ""
+                        withAnimation {
+                            proxy.scrollTo(target, anchor: .center)
                         }
                     }
                 }
+                
                 Spacer(minLength: 0)
+                
+            
+                
                 FooterBar()
+                
+             
+                
             }.frame(width: 200, height: 230)
                 .preferredColorScheme(.dark)
                 .buttonStyle(.plain)
         }.task {
             await vm.populateNordPoolStocks()
-        } .onAppear() {
-                    selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
-                    selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
+        }
+        .onChange(of: showingSettings){ target in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if(!target){
+                    scrollTarget = Date.getCurrentHour()
+                } else{
+                    scrollTarget = ""
+                }
+            }
+        }.onAppear() {
+            selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
+            selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
         }
         
     }
