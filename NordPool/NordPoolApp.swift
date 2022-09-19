@@ -67,16 +67,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 
-                
                 let popoverWindowX = popover.contentViewController?.view.window?.frame.origin.x ?? 0
                 let popoverWindowY = popover.contentViewController?.view.window?.frame.origin.y ?? 0
-
+                
+                print(popoverWindowY)
                 popover.contentViewController?.view.window?.setFrameOrigin(
-                    NSPoint(x: popoverWindowX, y: popoverWindowY - 10)
+                    NSPoint(x: popoverWindowX, y: popoverWindowY - 30)
                 )
                 popover.contentViewController?.view.window?.makeKey()
-                
-                
+
 
             }
         }
