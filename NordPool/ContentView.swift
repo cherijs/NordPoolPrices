@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PromiseKit
 
 struct ContentView: View {
     
@@ -13,12 +14,41 @@ struct ContentView: View {
     @State private var scrollTarget = ""
     @State private var showingSettings = false
     
-    var mesurements = ["kWh", "mWh"]
-    @State private var selectedMesurmentIndex = 0
+    @StateObject var app_settings:AppSettings = AppSettings()
     
+    enum Mesurement: Float, CaseIterable, Identifiable {
+        case kWh = 0.001, mWh = 1
+        var id: Self { self }
+    }
+    
+    @State private var selectedMesurement: Mesurement = .kWh
+    
+    
+    enum Markets: String, CaseIterable, Identifiable {
+        case SYS, SE1, SE2, SE3, SE4, FI, DK1, DK2, Oslo, Krsand = "Kr.sand", Bergen, Molde, Trheim = "Tr.heim", Tromsø, EE, LV, LT, AT, BE, DELU = "DE-LU", FR, NL
+        var id: Self { self }
+    }
+    @State private var selectedMarket: Markets = .LV
     
     init(vm: StockListViewModel) {
         self._vm = StateObject(wrappedValue: vm)
+     
+//        selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
+//        selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
+    }
+    
+    func saveSettings()  {
+        firstly {
+            app_settings.saveSettings(market: selectedMarket.rawValue, mesurement: selectedMesurement.rawValue)
+        }.done { settings in
+            print("saveSettings DONE:")
+            self.vm.refresh()
+        }.catch { error in
+            print("\nERROR")
+            print(error.localizedDescription)
+            print("\n")
+        }
+        
     }
     
     @ViewBuilder
@@ -60,7 +90,7 @@ struct ContentView: View {
             HStack(alignment: .top){
                 Text("Nord Pool")
                 Spacer()
-                Text(vm.title)
+                Text(app_settings.market)
             }.padding()
         })
         
@@ -73,13 +103,27 @@ struct ContentView: View {
                 Header()
                 Spacer(minLength: 0)
                 if(showingSettings){
-                    VStack{
-                        Picker(selection: $selectedMesurmentIndex, label: EmptyView()) {
-                            ForEach(0 ..< mesurements.count) {
-                                Text(self.mesurements[$0])
-                            }
+                    
+                    HStack {
+                        Picker(selection: $selectedMesurement, label: EmptyView()) {
+                            Text("kWh").tag(Mesurement.kWh)
+                            Text("mWh").tag(Mesurement.mWh)
+                        }.onChange(of: selectedMesurement) { tag in
+                            print("\(tag.rawValue)")
+                            
+                            self.saveSettings()
+                            
                         }
-                     
+                        .pickerStyle(.segmented)
+                        
+                        Picker(selection: $selectedMarket, label: EmptyView()) {
+                            ForEach(Markets.allCases) { option in
+                                Text(option.rawValue.description)
+                            }
+                        }.onChange(of: selectedMarket) { tag in
+                            print("\(tag.rawValue)")
+                            self.saveSettings()
+                        }
                     }.padding()
                     
                     
@@ -117,9 +161,6 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
-                    
-                    
                 }
                 Spacer(minLength: 0)
                 FooterBar()
@@ -128,6 +169,9 @@ struct ContentView: View {
                 .buttonStyle(.plain)
         }.task {
             await vm.populateNordPoolStocks()
+        } .onAppear() {
+                    selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
+                    selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
         }
         
     }

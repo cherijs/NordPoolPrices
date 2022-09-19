@@ -20,6 +20,7 @@ class StockListViewModel: ObservableObject {
     @Published var peak: Double = 0
     @Published var off_peak_1: Double = 0
     @Published var off_peak_2: Double = 0
+    @Published var markets: [String] = ["LV"]
     
     var loading = false
     
@@ -32,6 +33,10 @@ class StockListViewModel: ObservableObject {
             return row.symbol == "Min"
         }
         self.min = min[0].price
+        
+        self.markets = min[0].stock.columns.map({ col in
+            col.name
+        })
         
         let max = self.rows.filter { row in
             return row.symbol == "Max"
@@ -57,6 +62,11 @@ class StockListViewModel: ObservableObject {
             return row.symbol == "Off-peak 2"
         }
         self.off_peak_2 = off_peak_2[0].price
+    }
+    
+    func refresh() {
+        self.rows = self.response.data.rows.map(NordPoolRow.init)
+        self.set_min_max()
     }
     
     func populateNordPoolStocks() async {
