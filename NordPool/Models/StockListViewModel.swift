@@ -93,9 +93,6 @@ class StockListViewModel: ObservableObject {
             dateFormatter2.timeZone = TimeZone(identifier: "CET")
             dateFormatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             
-//            print(dateFormatter1.string(from: todayStartDate))
-//            print(dateFormatter2.string(from: self.rows[0].start_time))
-
             if(dateFormatter1.string(from: todayStartDate) == dateFormatter2.string(from: self.rows[0].start_time)) {
                 print("Already loaded")
                 self.rows = self.response.data.rows.map(NordPoolRow.init)
@@ -106,7 +103,7 @@ class StockListViewModel: ObservableObject {
            
         }
         
-        print("Fetch")
+        print("Fetching..")
         self.loading = true
         do {
             self.response = try await Fetcher().getNordPoolStocks(url: Constants.Urls.nordpoolPrices)

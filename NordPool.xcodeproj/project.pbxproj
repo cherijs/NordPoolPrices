@@ -19,7 +19,7 @@
 		6C4117AD28D472F30004CEF5 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4117AC28D472F30004CEF5 /* List.swift */; };
 		6C4117B228D4846A0004CEF5 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4117B128D4846A0004CEF5 /* ApiResponse.swift */; };
 		6C61EF9D28D842C5004E4996 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C61EF9C28D842C5004E4996 /* Settings.swift */; };
-		6C61EFA328D84504004E4996 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6C61EFA228D84504004E4996 /* PromiseKit */; };
+		6CF68E6728DA4474000E5E44 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF68E6628DA4474000E5E44 /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +38,7 @@
 		6C4117AC28D472F30004CEF5 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		6C4117B128D4846A0004CEF5 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		6C61EF9C28D842C5004E4996 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		6CF68E6628DA4474000E5E44 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +46,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C61EFA328D84504004E4996 /* PromiseKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4117A428D468C30004CEF5 /* Fetcher.swift */,
+				6CF68E6628DA4474000E5E44 /* NetworkMonitor.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -154,7 +155,6 @@
 			);
 			name = NordPool;
 			packageProductDependencies = (
-				6C61EFA228D84504004E4996 /* PromiseKit */,
 			);
 			productName = NordPool;
 			productReference = 6C41178028D4663D0004CEF5 /* NordPool.app */;
@@ -186,7 +186,6 @@
 			);
 			mainGroup = 6C41177728D4663D0004CEF5;
 			packageReferences = (
-				6C61EFA128D84504004E4996 /* XCRemoteSwiftPackageReference "PromiseKit" */,
 			);
 			productRefGroup = 6C41178128D4663D0004CEF5 /* Products */;
 			projectDirPath = "";
@@ -214,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CF68E6728DA4474000E5E44 /* NetworkMonitor.swift in Sources */,
 				6C41178628D4663D0004CEF5 /* ContentView.swift in Sources */,
 				6C4117AD28D472F30004CEF5 /* List.swift in Sources */,
 				6C41178428D4663D0004CEF5 /* NordPoolApp.swift in Sources */,
@@ -381,7 +381,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = lv.pixels.NordPoolMarketData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -416,7 +416,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = lv.pixels.NordPoolMarketData;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -446,25 +446,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		6C61EFA128D84504004E4996 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mxcl/PromiseKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6C61EFA228D84504004E4996 /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6C61EFA128D84504004E4996 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6C41177828D4663D0004CEF5 /* Project object */;
 }

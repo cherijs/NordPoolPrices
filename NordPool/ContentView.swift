@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PromiseKit
 
 struct ContentView: View {
     
@@ -32,23 +31,12 @@ struct ContentView: View {
     
     init(vm: StockListViewModel) {
         self._vm = StateObject(wrappedValue: vm)
-        
-        //        selectedMesurement = Mesurement(rawValue: app_settings.mesurement) ?? .kWh
-        //        selectedMarket = Markets(rawValue: app_settings.market) ?? .LV
     }
     
     func saveSettings()  {
-        firstly {
             app_settings.saveSettings(market: selectedMarket.rawValue, mesurement: selectedMesurement.rawValue)
-        }.done { settings in
             print("saveSettings DONE:")
             self.vm.refresh()
-        }.catch { error in
-            print("\nERROR")
-            print(error.localizedDescription)
-            print("\n")
-        }
-        
     }
     
     @ViewBuilder
@@ -129,7 +117,6 @@ struct ContentView: View {
             VStack(alignment: .leading){
                 Header()
                 Spacer(minLength: 0)
-
                 List(vm.rows.filter { $0.is_active && !["Min", "Max", "Average", "Peak", "Off-peak 1", "Off-peak 2"].contains($0.symbol)   }, id: \.range) { stock in
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
@@ -147,7 +134,8 @@ struct ContentView: View {
                         
                     }
                     Divider()
-                }.onChange(of: vm.rows) { new_rows in
+                }
+                .onChange(of: vm.rows) { new_rows in
                     print("changed vm.rows")
                     withAnimation {
                         proxy.scrollTo(Date.getCurrentHour(), anchor: .leading)
@@ -162,20 +150,11 @@ struct ContentView: View {
                         }
                     }
                 }
-                
                 Spacer(minLength: 0)
-                
-            
-                
                 FooterBar()
-                
-             
-                
             }.frame(width: 200, height: 230)
                 .preferredColorScheme(.dark)
                 .buttonStyle(.plain)
-        }.task {
-            await vm.populateNordPoolStocks()
         }
         .onChange(of: showingSettings){ target in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

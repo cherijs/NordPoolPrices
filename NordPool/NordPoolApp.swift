@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct NordPoolApp: App {
 
@@ -22,26 +23,36 @@ struct NordPoolApp: App {
 
 
 class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
-
-    private var statusItem: NSStatusItem!
-    private var popover: NSPopover!
-    private var stockListVM: StockListViewModel!
+    static private(set) var instance: AppDelegate! = nil
+    
+    public private(set) var statusItem: NSStatusItem!
+    public private(set) var popover: NSPopover!
+    public private(set) var stockListVM: StockListViewModel!
     
     
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
-
+        AppDelegate.instance = self
+        
         self.stockListVM = StockListViewModel()
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-
+        NetworkMonitor.shared.startMonitoring()
+        
+        var symbol = "chart.line.uptrend.xyaxis.circle.fill"
+        if NetworkMonitor.shared.isConnected {
+            print("You are connected")
+        } else {
+            print("Disconected")
+            symbol = "exclamationmark.circle.fill"
+        }
+        
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "chart.line.uptrend.xyaxis.circle.fill", accessibilityDescription: "Nord Pool")
+            statusButton.image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Nord Pool")
             statusButton.action = #selector(togglePopover)
         }
         
-        
         self.popover = NSPopover()
-        self.popover.contentSize = NSSize(width: 150, height: 200)
+        self.popover.contentSize = NSSize(width: 200, height: 230)
         self.popover.behavior = .transient
         self.popover.animates = true
 
@@ -60,9 +71,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
                 
                 Task {
                     await self.stockListVM.populateNordPoolStocks()
-                    print("fetched")
-        //            TODO update scroll and handle loading
-        //            self.v.updateScrollTarget(target: Date.getCurrentHour())
                 }
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
@@ -70,7 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
                 let popoverWindowX = popover.contentViewController?.view.window?.frame.origin.x ?? 0
                 let popoverWindowY = popover.contentViewController?.view.window?.frame.origin.y ?? 0
                 
-                print(popoverWindowY)
                 popover.contentViewController?.view.window?.setFrameOrigin(
                     NSPoint(x: popoverWindowX, y: popoverWindowY - 30)
                 )
@@ -83,3 +90,4 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
 
 }
+
