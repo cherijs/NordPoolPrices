@@ -73,22 +73,37 @@ class StockListViewModel: ObservableObject {
     
     func populateNordPoolStocks() async {
     
-        
         let calendar = Calendar.current
         var todayStartDate = Date()
+    
         var interval = TimeInterval()
         _ = calendar.dateInterval(of: .day, start: &todayStartDate, interval: &interval, for: Date())
         _ = calendar.date(byAdding: .second, value: Int(interval-1), to: todayStartDate)!
         if(self.loading){
-            print("Loading")
+            print("...Stil Loading")
             return
         }
+  
         
-        if(self.rows.count>0 && todayStartDate == self.rows[0].start_time){
-            print("Already loaded")
-            self.rows = self.response.data.rows.map(NordPoolRow.init)
-            self.set_min_max()
-            return
+        if(self.rows.count>0){
+            let dateFormatter1 = DateFormatter()
+            dateFormatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            
+            let dateFormatter2 = DateFormatter()
+            dateFormatter2.timeZone = TimeZone(identifier: "CET")
+            dateFormatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            
+//            print(dateFormatter1.string(from: todayStartDate))
+//            print(dateFormatter2.string(from: self.rows[0].start_time))
+
+            if(dateFormatter1.string(from: todayStartDate) == dateFormatter2.string(from: self.rows[0].start_time)) {
+                print("Already loaded")
+                self.rows = self.response.data.rows.map(NordPoolRow.init)
+                self.set_min_max()
+                return
+            }
+            
+           
         }
         
         print("Fetch")

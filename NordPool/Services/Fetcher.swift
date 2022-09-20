@@ -16,8 +16,15 @@ class Fetcher {
     func getNordPoolStocks(url: String) async throws -> NordPoolResponse {
         let url_with_date = url + "&endDate=" + Date().getFormattedDate(format: "dd-MM-Y")
         print(url_with_date)
-        let (data, response) = try await URLSession.shared.data(from: URL(string: url_with_date)!) //17-09-2022
-
+        let url_obj = URL(string: url_with_date)!
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    
+        var request = URLRequest(url: url_obj)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue(appVersion!, forHTTPHeaderField: "Nordpool")
+ 
+        let (data, response) = try await URLSession.shared.data(for: request) //17-09-2022
+        
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 else {
             throw NetworkError.invalidResponse
