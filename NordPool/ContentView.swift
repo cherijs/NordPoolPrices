@@ -120,23 +120,46 @@ struct ContentView: View {
                 List(vm.rows.filter { $0.is_active && !["Min", "Max", "Average", "Peak", "Off-peak 1", "Off-peak 2"].contains($0.symbol)   }, id: \.range) { stock in
                     HStack(alignment: .center) {
                         VStack(alignment: .leading) {
+                            Text(stock.day)
+                                .font(.caption)
+                                .fontWeight(.light)
+                                .opacity(0.4)
                             Text("\(stock.range)")
-                                .fontWeight(Date.getCurrentHour() == stock.range ? .bold : .light)
+                                .fontWeight(Date.getCurrentHour() == stock.range ? .semibold : .light)
                                 .opacity(Date.getCurrentHour() == stock.range ? 1 : 0.4)
                         }
                         Spacer()
-                        HStack{
-                            Text(stock.price.formatAsCurrency()).fontWeight(Date.getCurrentHour() == stock.range ? .bold : .light)
-                            Circle().fill(stock.price < vm.off_peak_1 ? Color.green : stock.price > vm.off_peak_2 ? Color.red : Color.white.opacity(0.2))
-                                .frame(width: 4, height: 4)
+                        VStack(alignment: .trailing, spacing: 0) {
+                            if(stock.price < vm.off_peak_1){
+                                Image(systemName: "arrow.down.circle.fill")
+                                    .resizable()
+                                    .foregroundStyle(Color.green)
+                                    .frame(width: 8, height:8).padding(.vertical, 2)
+                            } else if (stock.price > vm.off_peak_2) {
+                                Image(systemName: "arrow.up.circle.fill")
+                                    .resizable()
+                                    .foregroundStyle(Color.red)
+                                    .frame(width: 8, height:8).padding(.vertical, 2)
+                            } else {
+                                Image(systemName: "arrow.up.backward.and.arrow.down.forward.circle.fill")
+                                    .resizable()
+                                    .foregroundStyle(Color.white.opacity(0.2))
+                                    .frame(width: 8, height:8).padding(.vertical, 2)
+                            }
                             
-                        }.opacity(stock.is_past ? 0.4 : 1)
+                      
+//                            Circle().fill(stock.price < vm.off_peak_1 ? Color.green : stock.price > vm.off_peak_2 ? Color.red : Color.white.opacity(0.2))
+//                                .frame(width: 4, height: 4).padding(.vertical, 4)
+                            HStack(){
+                                Text(stock.price.formatAsCurrency()).fontWeight(Date.getCurrentHour() == stock.range ? .semibold : .light)
+                                
+                            }.opacity(stock.is_past ? 0.4 : 1)
+                        }
                         
                     }
                     Divider()
                 }
                 .onChange(of: vm.rows) { new_rows in
-                    print("changed vm.rows")
                     withAnimation {
                         proxy.scrollTo(Date.getCurrentHour(), anchor: .leading)
                     }
@@ -152,7 +175,7 @@ struct ContentView: View {
                 }
                 Spacer(minLength: 0)
                 FooterBar()
-            }.frame(width: 200, height: 230)
+            }.frame(width: 220, height: 230)
                 .preferredColorScheme(.dark)
                 .buttonStyle(.plain)
         }

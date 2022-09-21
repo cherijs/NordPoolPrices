@@ -19,19 +19,16 @@ class AppSettings:ObservableObject {
     }
     
     func clearSettings()  {
-       
-            UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-            self.mesurement = 0.001
-            self.market = "LV"
-          
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        self.mesurement = 0.001
+        self.market = "LV"
     }
     
     func saveSettings(market: String = "LV", mesurement: Float = 0.001) {
-     
-            self.market = market
-            self.mesurement = mesurement
-            UserDefaults.standard.set(self.market, forKey: "market")
-            UserDefaults.standard.set(self.mesurement, forKey: "mesurement")
-      
+        self.market = market
+        self.mesurement = mesurement
+        UserDefaults.standard.set(self.market, forKey: "market")
+        UserDefaults.standard.set(self.mesurement, forKey: "mesurement")
+        
     }
 }
