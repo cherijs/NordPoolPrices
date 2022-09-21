@@ -36,8 +36,6 @@ final class NetworkMonitor {
             self!.isConnected = path.status != .unsatisfied
             self?.getConnectionType(path: path)
             print("connected: \(String(describing: self?.isConnected))")
-            print(path.isExpensive)
-            
             
             if(self!.isConnected){
                 DispatchQueue.main.async {
