@@ -100,17 +100,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
                 Task {
                     await self.stockListVM.populateNordPoolStocks()
                 }
-                let frame = button.superview?.window?.frame
                 
                 
                 let x = button.window!.frame.origin.x
                 let y = button.window!.frame.origin.y
                 
-                
-                
                 button.superview?.window?.setFrameOrigin(NSPoint(x:x, y:y))
-                
-                //                let frame = popover.contentViewController?.view.window?.frame
                 
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
                 //                let popoverWindowX = frame?.origin.x ?? 0
