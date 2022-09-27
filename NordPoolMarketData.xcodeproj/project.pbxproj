@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C1FCDEC28E3640400492BEC /* ContentViewMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1FCDEB28E3640400492BEC /* ContentViewMac.swift */; };
 		6CD52F9328E054F7008708E5 /* NordPoolMarketDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD52F9228E054F7008708E5 /* NordPoolMarketDataApp.swift */; };
-		6CD52F9528E054F7008708E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD52F9428E054F7008708E5 /* ContentView.swift */; };
+		6CD52F9528E054F7008708E5 /* ContentViewIOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD52F9428E054F7008708E5 /* ContentViewIOS.swift */; };
 		6CD52F9728E054FA008708E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CD52F9628E054FA008708E5 /* Assets.xcassets */; };
 		6CD52F9B28E054FA008708E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CD52F9A28E054FA008708E5 /* Preview Assets.xcassets */; };
 		6CD52FA528E055D3008708E5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD52FA428E055D3008708E5 /* String.swift */; };
@@ -25,9 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C1FCDEB28E3640400492BEC /* ContentViewMac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewMac.swift; sourceTree = "<group>"; };
 		6CD52F8F28E054F7008708E5 /* NordPoolMarketData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NordPoolMarketData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CD52F9228E054F7008708E5 /* NordPoolMarketDataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NordPoolMarketDataApp.swift; sourceTree = "<group>"; };
-		6CD52F9428E054F7008708E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6CD52F9428E054F7008708E5 /* ContentViewIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewIOS.swift; sourceTree = "<group>"; };
 		6CD52F9628E054FA008708E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6CD52F9828E054FA008708E5 /* NordPoolMarketData.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NordPoolMarketData.entitlements; sourceTree = "<group>"; };
 		6CD52F9A28E054FA008708E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -81,7 +83,8 @@
 				6CD52FAA28E05672008708E5 /* Utils */,
 				6CD52FA128E0559B008708E5 /* Extensions */,
 				6CD52F9228E054F7008708E5 /* NordPoolMarketDataApp.swift */,
-				6CD52F9428E054F7008708E5 /* ContentView.swift */,
+				6CD52F9428E054F7008708E5 /* ContentViewIOS.swift */,
+				6C1FCDEB28E3640400492BEC /* ContentViewMac.swift */,
 				6CD52F9628E054FA008708E5 /* Assets.xcassets */,
 				6CD52F9828E054FA008708E5 /* NordPoolMarketData.entitlements */,
 				6CD52F9928E054FA008708E5 /* Preview Content */,
@@ -210,9 +213,10 @@
 				6CD52FBA28E05C97008708E5 /* Constants.swift in Sources */,
 				6CD52FB528E05C74008708E5 /* StockListViewModel.swift in Sources */,
 				6CD52FA928E0564A008708E5 /* Date.swift in Sources */,
+				6C1FCDEC28E3640400492BEC /* ContentViewMac.swift in Sources */,
 				6CD52FBE28E05E18008708E5 /* List.swift in Sources */,
 				6CD52FB628E05C7A008708E5 /* Stock.swift in Sources */,
-				6CD52F9528E054F7008708E5 /* ContentView.swift in Sources */,
+				6CD52F9528E054F7008708E5 /* ContentViewIOS.swift in Sources */,
 				6CD52FBC28E05D85008708E5 /* Settings.swift in Sources */,
 				6CD52FB728E05C7E008708E5 /* ApiResponse.swift in Sources */,
 				6CD52FA728E05624008708E5 /* Double.swift in Sources */,

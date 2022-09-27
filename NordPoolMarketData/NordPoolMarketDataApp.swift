@@ -26,7 +26,7 @@ struct NordPoolMarketDataApp: App {
     var body: some Scene {
 #if os(iOS)
         WindowGroup {
-            ContentView(vm: AppDelegate.instance.stockListVM)
+            ContentViewIOS(vm: AppDelegate.instance.stockListVM)
         }
 #else
         Settings {
@@ -74,9 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         self.popover.behavior = .transient
         self.popover.animates = true
         
-        self.popover.contentViewController = NSHostingController(rootView: ContentView(vm: self.stockListVM))
-        
-        
+        self.popover.contentViewController = NSHostingController(rootView: ContentViewMac(vm: self.stockListVM))
         
         
     }

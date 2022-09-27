@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-
-struct ContentView: View {
+#if os(macOS)
+struct ContentViewMac: View {
     
     @StateObject private var vm: StockListViewModel
     @State private var scrollTarget = ""
@@ -50,11 +50,7 @@ struct ContentView: View {
                 Text("Max \(vm.max.formatAsCurrency())")
             }
         })
-#if os(macOS)
         .padding(.horizontal)
-#else
-        .padding(.horizontal,18)
-#endif
         .padding(.top,10)
         .opacity(0.7)
         if(showingSettings){
@@ -88,13 +84,11 @@ struct ContentView: View {
                 Image(systemName: "gearshape.fill")
             }
             Spacer()
-#if os(macOS)
             Button{
                 NSApplication.shared.terminate(nil)
             } label: {
                 Image(systemName: "power")
             }
-#endif
             //
         }
         .padding(.horizontal)
@@ -113,11 +107,7 @@ struct ContentView: View {
                 Spacer()
                 Text(app_settings.market)
             }
-#if os(macOS)
             .padding()
-#else
-            .padding(18)
-#endif
         })
         
     }
@@ -127,19 +117,14 @@ struct ContentView: View {
         ScrollViewReader { (proxy: ScrollViewProxy) in
             VStack(alignment: .leading){
                 Header()
-#if os(macOS)
                 Spacer(minLength: 0)
-#endif
                 List(vm.rows.filter { $0.is_active && !["Min", "Max", "Average", "Peak", "Off-peak 1", "Off-peak 2"].contains($0.symbol)   }, id: \.range) { stock in
                     
                     VStack(){
                         HStack(alignment: .center) {
                             VStack(alignment: .leading) {
                                 Text(stock.day)
-#if os(macOS)
                                     .font(.caption)
-#endif
-                                
                                     .opacity(0.4)
                                 Text("\(stock.range)")
                                     .fontWeight(Date.getCurrentHour() == stock.range ? .semibold : .light)
@@ -176,13 +161,9 @@ struct ContentView: View {
                         }
                         Divider()
                     }
-#if os(iOS)
-                    .listRowSeparator(.hidden)
-#endif
+
                 }
-#if os(iOS)
-                .listStyle(PlainListStyle())
-#endif
+
                 //                .border(.red)
                 .onChange(of: vm.rows) { new_rows in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -204,10 +185,8 @@ struct ContentView: View {
                 FooterBar()
             }
             .buttonStyle(.plain)
-#if os(macOS)
             .preferredColorScheme(.dark)
             .frame(width: 220, height: 230)
-#endif
         }
         .onChange(of: showingSettings){ target in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -225,9 +204,9 @@ struct ContentView: View {
     }
 }
 
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vm: AppDelegate.instance.stockListVM)
+        ContentViewMac(vm: AppDelegate.instance.stockListVM)
     }
 }
+#endif
